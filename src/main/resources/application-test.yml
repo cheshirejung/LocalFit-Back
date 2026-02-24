@@ -1,0 +1,18 @@
+spring:
+  batch:
+    jdbc:
+      initialize-schema: never
+    job:
+      enabled: false
+  datasource:
+    url: jdbc:h2:mem:localfit;MODE=MySQL;NON_KEYWORDS=USER;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  quartz:
+    job-store-type: memory
+    jdbc:
+      initialize-schema: never
+  kafka:
+    listener:
+      auto-startup: false

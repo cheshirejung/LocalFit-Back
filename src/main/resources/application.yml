@@ -1,0 +1,72 @@
+spring:
+  batch:
+    jdbc:
+      initialize-schema: always
+    job:
+      enabled: false
+  datasource:
+    url: ${DB_URL:jdbc:mariadb://localhost:3306/1Team}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:}
+  application:
+    name: LocalFit
+  data:
+    redis:
+      host: localhost
+      port: 6379
+  elasticsearch:
+    host: ${ELASTICSEARCH_HOST:127.0.0.1}
+    port: ${ELASTICSEARCH_PORT:9200}
+    username: ${ELASTICSEARCH_USERNAME:elastic}
+    password: ${ELASTICSEARCH_PASSWORD:elastic}
+  quartz:
+    job-store-type: jdbc
+    jdbc:
+      initialize-schema: always
+    properties:
+      org.quartz.jobStore.driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+      org.quartz.jobStore.tablePrefix: QRTZ_
+      org.quartz.jobStore.isClustered: true
+      org.quartz.threadPool.threadCount: 10
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      properties:
+        spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
+        spring.json.trusted.packages: "com.example.LocalFit.hashtag.entity,com.example.LocalFit.community.entity"
+        spring.json.value.default.type: "com.example.LocalFit.hashtag.entity.HashtagIndexingInfo"
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID:dummy-google-client-id}
+            client-secret: ${GOOGLE_CLIENT_SECRET:dummy-google-client-secret}
+            redirect-uri: ${GOOGLE_REDIRECT_URI:http://localhost:8080/api/login/oauth2/code/google}
+data:
+  mongodb:
+    localfit:
+      uri: ${MONGODB_LOCALFIT_URI:mongodb://localhost:27017/localfit}
+    chatdb:
+      uri: ${MONGODB_CHATDB_URI:mongodb://root:passw0rd@localhost:27017/chatdb?authSource=admin}
+jwt:
+  secret-key: ${JWT_SECRET_KEY:VGhpcy1pcy1hLWRlbW8tanB3LXNlY3JldC1rZXktZm9yLWxvY2FsLWZpdA==}
+  accessTokenValidTime: 86400000
+  refreshTokenValidTime: 1209600000
+
+public-api:
+  url: ${PUBLIC_API_URL:http://openapi.seoul.go.kr:8088}
+  key: ${PUBLIC_API_KEY:}
+
+
+cloud:
+  aws:
+    credentials:
+      access-key: ${AWS_ACCESS_KEY:}
+      secret-key: ${AWS_SECRET_KEY:}
+    region:
+      static: ${AWS_REGION:ap-northeast-2}
+    s3:
+      bucket-name: ${AWS_S3_BUCKET_NAME:}
