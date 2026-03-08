@@ -1,4 +1,4 @@
-# LocalFit Backend
+# LocalFit 엘리스 3차 프로젝트 - Backend
 
 Spring Boot 기반 백엔드 프로젝트입니다.
 
